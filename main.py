@@ -18,6 +18,7 @@ def read_cook_book(file_name):
             file.readline()  # empty line between dishes
     return cook_book
 
+
 file_name = 'recipes.txt'  # замените 'recipes.txt' на имя вашего файла
 cook_book = read_cook_book(file_name)
 print(cook_book)
@@ -40,9 +41,29 @@ def get_shop_list_by_dishes(dishes, person_count):
         result_shop_list[key] = {'measure': value['measure'], 'quantity': value['quantity']}
     return result_shop_list
 
+
 dishes = ['Запеченный картофель', 'Омлет']
 person_count = 2
 shop_list = get_shop_list_by_dishes(dishes, person_count)
 print(shop_list)
 
 
+def merge_files(file_names, output_file):
+    file_data = []
+    for file_name in file_names:
+        with open(file_name, 'r', encoding='utf-8') as file:
+            data = file.readlines()
+            file_data.append((file_name, len(data), data))
+
+    file_data.sort(key=lambda x: x[1])
+
+    with open(output_file, 'w', encoding='utf-8') as file:
+        for name, length, data in file_data:
+            file.write(f"{name}\n{length}\n")
+            file.writelines([f"{line}" for line in data])
+            file.write('\n')
+
+
+file_names = ['1.txt', '2.txt', '3.txt']  # замените это на фактические имена ваших файлов
+output_file = 'result.txt'  # имя итогового файла
+merge_files(file_names, output_file)
